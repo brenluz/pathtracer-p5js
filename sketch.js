@@ -77,7 +77,7 @@ function crossedLineOnx(x,y,xoff,yoff,line) {
 function mapMonitor(){
     push(); 
     fill(255);
-    // noStroke();
+    noStroke();
     /**
      * Draws the first monitor rectangle.
      */
