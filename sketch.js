@@ -1,74 +1,73 @@
 let x;
 let y;
+let xoff;
+let yoff;
 let arr = [a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p]
-let a = [0,481,572,481,0]  // 0 varia o y e 1 varia o x
-let b = [1,481,0,881,0] 
-let c = [0,881,0,881,66]
-let d = [1,881,66,1568,66]
-let e = [0,1568,66,1568,466]
-let f = [1,1568,466,1446,466]
-let g = [0,1446,466,1446,1080]
-let h = [1,1446,1080,1047,1080]
-let i = [0,1047,1080,1047,932]
-let j = [1,1047,932,352,932]
-let k = [0,352,932,352,572]
-let l = [1,352,572,481,572]
-let m = [0,881,572,881,465]
-let n = [1,881,465,1047,465]
-let o = [0,1047,465,1047,572]
-let p = [1,1047,572,881,572]
-
 
 function setup() {
-    let x = mouseX;
-    let y = mouseY;
-
     createCanvas(1920,1080);
 }
 function draw() {
+    x = mouseX;
+    y = mouseY;
     background(0);
     mapMonitor();
     ellipse(mouseX,mouseY,50,50);
     for(let i = 0; i < arr.length; i++) {
-        if(arr[i][0] == 0) {
-            if(crossedLineOnx(x,y,xoff,yoff,arr[i])){
-                fill(0,255,0);
-            
-            }
-        }
-        if(arr[i][0] == 1) {
-            if(crossedLineOny(x,y,xoff,yoff,arr[i])){
-                fill(255,0,0);
-            }
-        }
+        crossedLine(x,y,xoff,yoff,arr[i]);
     }
+    xoff = x;
+    yoff = y;
+
 }
-function mouseMoved() {
-    xoff = mouseX;
-    yoff = mouseY;
+function crossedLine(x,y,xoff,yoff,line) {
+    if (line.direction == 0) {
+        crossedLineOny(x,y,xoff,yoff,line);
+    }
+    else if (line.direction == 1) {
+        crossedLineOnx(x,y,xoff,yoff,line);
+    }
+    else {
+        console.log("Error");
+    }
 }
 function crossedLineOny(x,y,xoff,yoff,line) {
-    if(line[0] == 1) {
-        if((line[1] < x && line[1] < xoff) && (line[3] > x && line[3] > xoff)
-        && ((line[2] < y && line[2] < yoff)|| (line[2] > y && line[2] > yoff))) {
-            return true
+    let linex = line.startX;
+    let parede = line.dentro;
+    if(line.startY - line.endY > 0) {
+        B = line.startY; 
+        A = line.endY;
+    }
+    else if (line.startY - line.endY < 0) {
+        B = line.endY;
+        A = line.startY;
+    }
+    if ((y < B && y > A) && ( yoff < B && yoff > A)) {
+        if (parede == 'direita' && x < linex && xoff > linex) {
+            console.log("Crossed line horizontaly to the left");
         }
-        if((line[1] > x && line[1] > xoff) && (line[3] < x && line[3] < xoff)
-        && ((line[2] < y && line[2] < yoff)|| (line[2] > y && line[2] > yoff))) {
-            return true
+        else if (parede == 'esquerda' && x > linex && xoff < linex) {
+            console.log("Crossed line horizontaly to the right");
         }
     }
-}
 
-function crossedLineOnx(x,y,xoff,yoff,line) {
-    if(line[0] == 0) {
-        if((line[2] < y && line[2] < yoff) && (line[4] > y && line[4] > yoff)
-        && ((line[1] < x && line[1] < xoff)|| (line[1] > x && line[1] > xoff))) {
-            return true
+
+}
+function crossedLineOnx(x,y,xoff,yoff,line) { 
+    if(line.startX - line.endX > 0) {
+        B = line.startX; 
+        A = line.endX;
+    }
+    else if (line.startX - line.endX < 0) {
+        B = line.endX;
+        A = line.startX;
+    }
+    if ((x < B && x > A) && ( xoff < B && xoff > A)) {
+        if (line.dentro == 'emcima' && y > line.startY && yoff < line.startY) {
+            console.log("Crossed line vertically to the bottom");
         }
-        if((line[2] > y && line[2] > yoff) && (line[4] < y && line[4] < yoff)
-        && ((line[1] < x && line[1] < xoff)|| (line[1] > x && line[1] > xoff))) {
-            return true
+        else if (line.dentro == 'embaixo' && y < line.startY && yoff > line.startY) {
+            console.log("Crossed line vertically to the top");
         }
     }
 }
