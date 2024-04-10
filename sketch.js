@@ -1,12 +1,12 @@
 // array with all the lines that make up the mapping of the monitors
 let arr = [a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p] 
-let initialX = 700
-let initialY = 500
-let xSpeed = 0;
-let ySpeed = 0;
-let breaking = false;
-let colors = [];
-function setup() {
+let initialX = 700 // initial position of the snake
+let initialY = 500 
+let xdir = 0; // direction of the snake alternates between 0 and 1 when the keys are pressed
+let ydir = 0; 
+let breaking = false; // variable that breaks the loop when the snake dies
+let colors = []; 
+function setup() { 
     createCanvas(1920,1080);
     reset();
 }

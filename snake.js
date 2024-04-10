@@ -4,7 +4,7 @@ class Snake {
         this.y = y;
         this.speed = 2;
         this.alive = true;
-        this.start = false
+        this.start = false 
         this.body = []; // array to store the positions of the body
         for(let i = 0; i < 5; i++) {
             this.body.push({x: this.x - i * 12, y: this.y}); // initialize the body positions
@@ -22,7 +22,7 @@ class Snake {
         push();
 
         for(let i = 0; i < this.body.length; i++) {
-            fill(colors[i], colors[i + 1], colors[i + 2])
+            fill(colors[i], colors[i + 1], colors[i + 2]) // fill the body parts with different colors
             circle(this.body[i].x, this.body[i].y, 60); // draw the body at the stored positions
         }
         fill(0);  // draw the eyes of the snake
@@ -53,22 +53,23 @@ class Snake {
     step() 
     {   // if the game has started (enter has been pressed while a snake is alive) the snake moves
         if (this.start == true){ 
-            // if the snake has not been given a direction it doesnt move and changes the 
+            this.speed = 2; // sets the speed of the snake to 2 every loop (needed for the snake to move)
+            // if the snake has not been given a direction it doesnt move 
             if(this.xdir == undefined && this.ydir == undefined){ 
-                this.xdir = 1;
+                this.xdir = 1; //(changes to the values are to avoid errors)
                 this.ydir = 1;
             }
-            else {    
+            else {    // if the snake has a direction it moves in said direction
             this.x += this.xdir * this.speed;
             this.y += this.ydir * this.speed;
             }
         }
         else {
-            this.speed = 0;
+            this.speed = 0; // if the game has not started the snake does not move
         }
     }
     kill() { // kill the snake
-        this.start = false;
+        this.start = false; 
         this.body = [];
         this.x = 0;
         this.y = 0;
