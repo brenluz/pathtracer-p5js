@@ -20,7 +20,7 @@ class Snake {
     }
     show() {
         push();
-        fill(255, 0, 0);
+        fill(128, 0, 128);
         for(let i = 0; i < this.body.length; i++) {
             circle(this.body[i].x, this.body[i].y, 60); // draw the body at the stored positions
         }
@@ -72,5 +72,13 @@ class Snake {
         this.x = 0;
         this.y = 0;
         this.alive = false;
+    }
+    eat() {
+        let head = this.body[0];
+        let d = dist(head.x, head.y, apple.loc.x, apple.loc.y);
+        if(d < 35) {
+            apple.location();
+            this.body.push({x: this.x, y: this.y});
+        }
     }
 }

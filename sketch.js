@@ -3,7 +3,7 @@ let y;
 let xoff;
 let yoff;
 let arr = [a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p]
-let cobra
+let apple;
 let initialX = 700
 let initialY = 500
 let xSpeed = 0;
@@ -16,13 +16,16 @@ function setup() {
 }
 function reset() {
     snake = new Snake(initialX,initialY);
+    apple = new Apple(isIn());
     breaking = false;
+
 }
 function draw() {
     x = mouseX;
     y = mouseY;
     background(0);
     mapMonitor();
+    apple.show();
     for(let i = 0; i < arr.length; i++) {
         if(breaking == true) {
             break
@@ -37,6 +40,7 @@ function draw() {
     snake.show();
     snake.update();
     snake.step();
+    snake.eat();
     }
     xoff = x;
     yoff = y;
@@ -174,4 +178,21 @@ function mapMonitor(){
     borda2 = rect(989,572,60,360);
     
     pop();
+}
+function isIn() {
+    let monitors = [
+        {x: 481, y: 0, width: 400, height: 640},
+        {x: 881, y: 66, width: 640, height: 400},
+        {x: 879, y: 66, width: 60, height: 400},
+        {x: 989, y: 572, width: 60, height: 360},
+       
+        // add the other two monitors here
+    ];
+
+    let monitor = random(monitors); // select a random monitor
+    let x = random(monitor.x, monitor.x + monitor.width); // generate a random x position within the monitor
+    let y = random(monitor.y, monitor.y + monitor.height); // generate a random y position within the monitor
+    let pos = [x,y]; // create a vector with the random position
+    return pos;
+
 }
