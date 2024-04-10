@@ -3,29 +3,69 @@ let y;
 let xoff;
 let yoff;
 let arr = [a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p]
+let cobra
+let initialX = 700
+let initialY = 500
+let xSpeed = 0;
+let ySpeed = 0;
+let breaking = false;
 
 function setup() {
     createCanvas(1920,1080);
+    reset();
+}
+function reset() {
+    snake = new Snake(initialX,initialY);
+    breaking = false;
 }
 function draw() {
     x = mouseX;
     y = mouseY;
     background(0);
     mapMonitor();
-    ellipse(mouseX,mouseY,50,50);
     for(let i = 0; i < arr.length; i++) {
-        crossedLine(x,y,xoff,yoff,arr[i]);
+        if(breaking == true) {
+            break
+        }
+        if (crossedLine(snake.x,snake.y,snake.body[4].x,snake.body[4].y,arr[i])) {
+            console.log("Crossed line");
+            snake.kill();
+            breaking = true;
+        }
+    }
+    if(snake.alive == true) {
+    snake.show();
+    snake.update();
+    snake.step();
     }
     xoff = x;
     yoff = y;
 
 }
+function keyPressed() {
+    if(keyCode === ENTER) {
+        snake.start = true;
+        if (snake.alive == false) {
+            reset();
+        }
+
+    }
+    if (keyCode === 65) {
+      snake.setDir(-1, 0);
+    } else if (keyCode === 68) {
+      snake.setDir(1, 0);
+    } else if (keyCode === 83) {
+      snake.setDir(0, 1);
+    } else if (keyCode === 87) {
+      snake.setDir(0, -1);
+    }
+  }
 function crossedLine(x,y,xoff,yoff,line) {
     if (line.direction == 0) {
-        crossedLineOny(x,y,xoff,yoff,line);
+        return crossedLineOny(x,y,xoff,yoff,line);
     }
     else if (line.direction == 1) {
-        crossedLineOnx(x,y,xoff,yoff,line);
+        return crossedLineOnx(x,y,xoff,yoff,line);
     }
     else {
         console.log("Error");
@@ -45,9 +85,11 @@ function crossedLineOny(x,y,xoff,yoff,line) {
     if ((y < B && y > A) && ( yoff < B && yoff > A)) {
         if (parede == 'direita' && x < linex && xoff > linex) {
             console.log("Crossed line horizontaly to the left");
+            return true 
         }
         else if (parede == 'esquerda' && x > linex && xoff < linex) {
             console.log("Crossed line horizontaly to the right");
+            return true
         }
     }
 
@@ -65,9 +107,11 @@ function crossedLineOnx(x,y,xoff,yoff,line) {
     if ((x < B && x > A) && ( xoff < B && xoff > A)) {
         if (line.dentro == 'emcima' && y > line.startY && yoff < line.startY) {
             console.log("Crossed line vertically to the bottom");
+            return true
         }
         else if (line.dentro == 'embaixo' && y < line.startY && yoff > line.startY) {
             console.log("Crossed line vertically to the top");
+            return true
         }
     }
 }
@@ -76,7 +120,7 @@ function crossedLineOnx(x,y,xoff,yoff,line) {
  */
 function mapMonitor(){
     push(); 
-    fill(255);
+    fill(0,255,0);
     noStroke();
     /**
      * Draws the first monitor rectangle.
