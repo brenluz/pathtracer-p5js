@@ -48,7 +48,9 @@ class Snake {
                 this.body[i].y += dy * bodyspeed;
             }
         }
+
         this.body[0] = {x: this.x, y: this.y}; // the head of the snake is at the current position
+
     }
     step() 
     {   // if the game has started (enter has been pressed while a snake is alive) the snake moves
@@ -70,15 +72,14 @@ class Snake {
     }
     kill() { // kill the snake
         this.start = false; 
-        this.body = [];
-        this.x = 0;
-        this.y = 0;
+        this.speed = 0;
         this.alive = false;
     }
     eat() { // check if the snake has eaten the apple and if so creates a new apple and adds a body part
         let head = this.body[0];
         let d = dist(head.x, head.y, apple.loc.x, apple.loc.y);
         if(d < 35) {
+            this.speed += random(0.05,0,5); // increases the speed of the snake
             apple.location();
             this.body.push({x: this.x, y: this.y});
         }

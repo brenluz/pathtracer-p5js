@@ -39,12 +39,12 @@ function draw() {
             breaking = true; // breaks the loop
         }
     }
-    if(snake.alive == true) { // if the snake is alive it appears on the screen, moves and updates its parameters
+// if the snake is alive it appears on the screen, moves and updates its parameters
     snake.show();
     snake.update();
     snake.step();
     snake.eat();
-    }
+    
 }
 function keyPressed() { 
     if(keyCode === ENTER) { // this creates a new snake if there is none and starts the game
@@ -81,7 +81,7 @@ function crossedLineOny(x,y,xoff,yoff,line) { // checks if the snake has crossed
     let parede = line.dentro;
     if(line.startY - line.endY > 0) {
         B = line.startY; 
-        A = line.endY;
+        A = line.endY; 
     }
     else if (line.startY - line.endY < 0) {
         B = line.endY;
